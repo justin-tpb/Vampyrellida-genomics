@@ -100,10 +100,10 @@ fastp_function() {
     # fastp setup
     fastp_report_dir="$read_work_dir/Reports/"
     fastp_report="$fastp_report_dir/$sample.fastp.html"
-    mkdir -p "$fastp_report_dir" # Because fastp does not create directories
+    mkdir -p "$fastp_report_dir"  # Because fastp does not create directories
 
     # fastp version display
-    version=$(fastp --version 2>&1) # Redirect version output to stdout
+    version=$(fastp --version 2>&1)  # Redirect version output to stdout
     text_function "$version"
 
     # fastp task
@@ -173,7 +173,7 @@ flye_function() {
 
     # Flye version display
     version=$(flye --version)
-    version="flye $version" # Show name and version
+    version="flye $version"  # Show name and version
     text_function "$version"
 
     # Flye task
@@ -326,7 +326,7 @@ whokaryote_function() {
     mkdir -p "$decont_work_dir"
 
     # Whokaryote version display
-    text_function "Whokaryote 1.1.2" # Has no version parameter
+    text_function "Whokaryote 1.1.2"  # Has no version parameter
 
     # Whokaryote task
     whokaryote.py \
@@ -354,7 +354,7 @@ softmasking_function() {
     conda activate softmasking
 
     # Softmasking setup
-    export BLAST_USAGE_REPORT=false # Do not send BLAST usage report over network
+    export BLAST_USAGE_REPORT=false  # Do not send BLAST usage report over network
     mkdir -p "$softmask_work_dir"
     builtin cd "$softmask_work_dir"
 

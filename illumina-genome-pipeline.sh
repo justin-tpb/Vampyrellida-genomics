@@ -90,15 +90,15 @@ phyloflash_function() {
     conda activate pf
 
     # phyloFlash setup
-    sample_fixed="${sample//./_}" # Because phyloFlash does not accept library names with dots
+    sample_fixed="${sample//./_}"  # Because phyloFlash does not accept library names with dots
     pf_work_dir="$work_dir/Analyses/phyloFlash/$sample/"
     mkdir -p "$pf_work_dir"
-    builtin cd "$pf_work_dir" # Because phyloFlash does not have an output parameter
+    builtin cd "$pf_work_dir"  # Because phyloFlash does not have an output parameter
 
     # phyloFlash version display
-    version=$(phyloFlash.pl -v 2>&1) # Redirect version output to stdout
-    version="${version: -17}" # Show only name and version
-    text_function "${version/v/}" # Remove "v" from version
+    version=$(phyloFlash.pl -v 2>&1)  # Redirect version output to stdout
+    version="${version: -17}"  # Show only name and version
+    text_function "${version/v/}"  # Remove "v" from version
 
     # phyloFlash task
     phyloFlash.pl \
@@ -129,10 +129,10 @@ fastp_function() {
     # fastp setup
     fastp_report_dir="$fastp_work_dir/Reports/"
     fastp_report="$fastp_report_dir/$sample.fastp.html"
-    mkdir -p "$fastp_report_dir" # Because fastp does not create directories
+    mkdir -p "$fastp_report_dir"  # Because fastp does not create directories
 
     # fastp version display
-    version=$(fastp -v 2>&1) # Redirect version output to stdout
+    version=$(fastp -v 2>&1)  # Redirect version output to stdout
     text_function "$version"
 
     # fastp task
@@ -159,10 +159,10 @@ fastqc_function() {
 
     # FastQC setup
     fastqc_work_dir="$fastp_work_dir/FastQC/$sample/"
-    mkdir -p "$fastqc_work_dir" # Because FastQC does not create directories
+    mkdir -p "$fastqc_work_dir"  # Because FastQC does not create directories
 
     # FastQC version display
-    version=$(fastqc -v 2> /dev/null) # Send stderr to null
+    version=$(fastqc -v 2> /dev/null)  # Send stderr to null
     text_function "${version::6} ${version: -6}"  # Remove "v" from version
 
     # FastQC task
@@ -191,7 +191,7 @@ spades_function() {
     conda activate assembly
     # SPAdes version display
     version=$(spades.py -v 2>&1)
-    text_function "${version::6} ${version: -6}" # Show only name and remove "v"
+    text_function "${version::6} ${version: -6}"  # Show only name and remove "v"
     # SPAdes task
     spades.py \
     -1 "$fastp_reads1" \
@@ -222,7 +222,7 @@ whokaryote_function() {
     mkdir -p "$decont_work_dir"
 
     # Whokaryote version display
-    text_function "Whokaryote 1.1.2" # Has no version parameter
+    text_function "Whokaryote 1.1.2"  # Has no version parameter
 
     # Whokaryote task
     whokaryote.py \
@@ -249,7 +249,7 @@ softmasking_function() {
     conda activate softmasking
 
     # Softmasking setup
-    export BLAST_USAGE_REPORT=false # Do not send BLAST usage report over network
+    export BLAST_USAGE_REPORT=false  # Do not send BLAST usage report over network
     mkdir -p "$softmask_work_dir"
     builtin cd "$softmask_work_dir"
 
