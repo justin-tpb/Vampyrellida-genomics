@@ -44,7 +44,7 @@ contig_size=2000
 # phyloFlash data directory
 pf_data=""
 
-# BRAKER3 singularity/apptainer image file path and protein reference file path
+# BRAKER 3.0.7 singularity/apptainer image file path and protein reference file path
 braker_sif=""
 ref_proteins=""
 
@@ -55,7 +55,7 @@ busco_lineages=("eukaryota_odb10" "alveolata_odb10")  # Must be a list
 # Sample name
 sample=""
 
-# First raw Illumina read file paths (must end with fastq.gz)
+# Raw Illumina read file paths (must end with fastq.gz)
 reads1=""
 reads2=""
 ###################################

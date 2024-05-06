@@ -44,7 +44,7 @@ pypolca_iterations=3
 # Whokaryote minimum contig size
 contig_size=2000
 
-# BRAKER3 singularity/apptainer image file path and protein reference file path
+# BRAKER 3.0.7 singularity/apptainer image file path and protein reference file path
 braker_sif=""
 ref_proteins=""
 
