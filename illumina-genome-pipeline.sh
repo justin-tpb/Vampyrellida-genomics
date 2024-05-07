@@ -95,9 +95,8 @@ phyloflash_function() {
     cd "$pf_work_dir"  # Because phyloFlash does not have an output parameter
 
     # phyloFlash version display
-    version=$(phyloFlash.pl -v 2>&1)  # Redirect version output to stdout
-    version="${version: -17}"  # Show only name and version
-    text_function "${version/v/}"  # Remove "v" from version
+    version=$(phyloFlash.pl --version 2>&1)  # Redirect version output to stdout
+    text_function "${version: -17}"  # Show only name and version
 
     # phyloFlash task
     phyloFlash.pl \
@@ -161,8 +160,8 @@ fastqc_function() {
     mkdir -p "$fastqc_work_dir"  # Because FastQC does not create directories
 
     # FastQC version display
-    version=$(fastqc -v 2> /dev/null)  # Send stderr to null
-    text_function "${version::6} ${version: -6}"  # Remove "v" from version
+    version=$(fastqc --version 2> /dev/null)  # Send stderr to null
+    text_function "$version"
 
     # FastQC task
     fastqc \
@@ -188,9 +187,11 @@ scaffolds="$assembly_work_dir/scaffolds.fasta"
 # SPAdes for assembly of processed reads
 spades_function() {
     conda activate assembly
+
     # SPAdes version display
-    version=$(spades.py -v 2>&1)
-    text_function "${version::6} ${version: -6}"  # Show only name and remove "v"
+    version=$(spades.py --version 2>&1)  # Redirect version output to stdout
+    text_function "${version::6} ${version: -7}"  # Show only name and version
+
     # SPAdes task
     spades.py \
     -1 "$fastp_reads1" \
