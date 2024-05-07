@@ -72,19 +72,18 @@ assembly_out_dir="$out_dir/Assemblies/"
 analysis_out_dir="$out_dir/Analyses/"
 predict_out_dir="$out_dir/Predictions/"
 mkdir -p "$log_dir" "$assembly_out_dir" "$analysis_out_dir" "$predict_out_dir"
-builtin cd "$work_dir"
+cd "$work_dir"
 
-# Text function for displaying software name and version at start
+# Text function for displaying software name and version
 text_function() {
-    # Short repeat function from:
-    # https://stackoverflow.com/questions/5349718/how-can-i-repeat-a-character-in-bash
-    repeat() { printf "$1""%.s" $(eval "echo {1.."$(($2))"}"); }
+    # Short repeat function
+    repeat() { for ((i=1; i<=$2; i++)); do printf "$1"; done; }
     printf "\n\n"
-    printf "$(repeat = $((${#1}*3)))"  # Repeat "=" 3x length of version output
+    printf "$(repeat = $((${#1} * 3)))"  # Repeat "=" 3x length of version output
     printf "\n\n"
-    printf "$(repeat " " $((${#1}*1)))$1"  # Repeat " " up to length of version output
+    printf "$(repeat ' ' $((${#1} * 1)))$1"  # Repeat whitespace up to length of version output
     printf "\n\n"
-    printf "$(repeat = $((${#1}*3)))"
+    printf "$(repeat = $((${#1} * 3)))"
     printf "\n\n"
 }
 
@@ -206,7 +205,7 @@ nextpolish_function() {
 
 	# NextPolish setup
 	mkdir -p "$nextpolish_work_dir"
-    builtin cd "$nextpolish_work_dir"
+    cd "$nextpolish_work_dir"
     cp "$scaffolds" .
     input="assembly.fasta"
 
@@ -276,7 +275,7 @@ nextpolish_function() {
     --natural-order \
     --out-file "$nextpolish_scaffolds"
 
-    builtin cd "$work_dir"
+    cd "$work_dir"
     conda deactivate
 }
 
@@ -356,7 +355,7 @@ softmasking_function() {
     # Softmasking setup
     export BLAST_USAGE_REPORT=false  # Do not send BLAST usage report over network
     mkdir -p "$softmask_work_dir"
-    builtin cd "$softmask_work_dir"
+    cd "$softmask_work_dir"
 
     # RepeatModeler version display
     version=$(RepeatModeler -version)
@@ -392,7 +391,7 @@ softmasking_function() {
 
     # Remove intermittent files
     rm -r RM_* *.euk2000.n*
-    builtin cd "$work_dir"
+    cd "$work_dir"
 
     # Copy masked genome, masking information and repeat families to Output folder
     cp "$masked_scaffolds" "$assembly_out_dir/$eukaryotic_sample.masked.fasta"

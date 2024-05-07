@@ -69,19 +69,18 @@ assembly_out_dir="$out_dir/Assemblies/"
 analysis_out_dir="$out_dir/Analyses/"
 predict_out_dir="$out_dir/Predictions/"
 mkdir -p "$log_dir" "$assembly_out_dir" "$analysis_out_dir" "$predict_out_dir"
-builtin cd "$work_dir"
+cd "$work_dir"
 
-# Text function for displaying software name and version at start
+# Text function for displaying software name and version
 text_function() {
-    # Short repeat function from:
-    # https://stackoverflow.com/questions/5349718/how-can-i-repeat-a-character-in-bash
-    repeat() { printf "$1""%.s" $(eval "echo {1.."$(($2))"}"); }
+    # Short repeat function
+    repeat() { for ((i=1; i<=$2; i++)); do printf "$1"; done; }
     printf "\n\n"
-    printf "$(repeat = $((${#1}*3)))"  # Repeat "=" 3x length of version output
+    printf "$(repeat = $((${#1} * 3)))"  # Repeat "=" 3x length of version output
     printf "\n\n"
-    printf "$(repeat " " $((${#1}*1)))$1"  # Repeat " " up to length of version output
+    printf "$(repeat ' ' $((${#1} * 1)))$1"  # Repeat whitespace up to length of version output
     printf "\n\n"
-    printf "$(repeat = $((${#1}*3)))"
+    printf "$(repeat = $((${#1} * 3)))"
     printf "\n\n"
 }
 
@@ -93,7 +92,7 @@ phyloflash_function() {
     sample_fixed="${sample//./_}"  # Because phyloFlash does not accept library names with dots
     pf_work_dir="$work_dir/Analyses/phyloFlash/$sample/"
     mkdir -p "$pf_work_dir"
-    builtin cd "$pf_work_dir"  # Because phyloFlash does not have an output parameter
+    cd "$pf_work_dir"  # Because phyloFlash does not have an output parameter
 
     # phyloFlash version display
     version=$(phyloFlash.pl -v 2>&1)  # Redirect version output to stdout
@@ -108,7 +107,7 @@ phyloflash_function() {
     -dbhome "$pf_data" \
     -CPUs "$threads" \
     -sc  # For single-cell data
-    builtin cd "$work_dir"
+    cd "$work_dir"
 
     # Copy phyloFlash result file to Output folder
     cp "$pf_work_dir/$sample.phyloFlash.html" "$analysis_out_dir/$sample.reads.phyloflash.html"
@@ -251,7 +250,7 @@ softmasking_function() {
     # Softmasking setup
     export BLAST_USAGE_REPORT=false  # Do not send BLAST usage report over network
     mkdir -p "$softmask_work_dir"
-    builtin cd "$softmask_work_dir"
+    cd "$softmask_work_dir"
 
     # RepeatModeler version display
     version=$(RepeatModeler -version)
@@ -287,7 +286,7 @@ softmasking_function() {
 
     # Remove intermittent files
     rm -r RM_* *.euk2000.n*
-    builtin cd "$work_dir"
+    cd "$work_dir"
 
     # Copy masked genome, masking information and repeat families to Output folder
     cp "$masked_scaffolds" "$assembly_out_dir/$eukaryotic_sample.masked.fasta"
