@@ -90,7 +90,7 @@ phyloflash_function() {
 
     # phyloFlash setup
     sample_fixed="${sample//./_}"  # Because phyloFlash does not accept library names with dots
-    pf_work_dir="$work_dir/Analyses/phyloFlash/$sample/"
+    pf_work_dir="$work_dir/Analysis/phyloFlash/$sample/"
     mkdir -p "$pf_work_dir"
     cd "$pf_work_dir"  # Because phyloFlash does not have an output parameter
 
@@ -181,7 +181,7 @@ fastqc_function() {
 }
 
 # SPAdes setup
-assembly_work_dir="$work_dir/Assemblies/$sample/"
+assembly_work_dir="$work_dir/Assembly/$sample/"
 scaffolds="$assembly_work_dir/scaffolds.fasta"
 
 # SPAdes for assembly of processed reads
@@ -350,7 +350,7 @@ quast_function() {
 
     # QUAST for raw assembly
         # QUAST setup
-        quast_work_dir="$work_dir/Analyses/QUAST/raw/$sample/"
+        quast_work_dir="$work_dir/Analysis/QUAST/raw/$sample/"
 
         # QUAST task
         quast.py \
@@ -367,7 +367,7 @@ quast_function() {
 
     # QUAST for decontaminated assembly
         # QUAST setup
-        quast_work_dir="$work_dir/Analyses/QUAST/euk$contig_size/$eukaryotic_sample/"
+        quast_work_dir="$work_dir/Analysis/QUAST/euk$contig_size/$eukaryotic_sample/"
 
         # QUAST task
         quast.py \
@@ -398,7 +398,7 @@ busco_function() {
     # BUSCO loop for raw assembly
     for busco_lineage in "${busco_lineages[@]}"; do
         # BUSCO setup
-        busco_work_dir="$work_dir/Analyses/BUSCO/raw/${busco_lineage%_odb10}/"
+        busco_work_dir="$work_dir/Analysis/BUSCO/raw/${busco_lineage%_odb10}/"
 
         # BUSCO task
         busco \
@@ -419,7 +419,7 @@ busco_function() {
     # BUSCO loop for decontaminated assembly
     for busco_lineage in "${busco_lineages[@]}"; do
         # BUSCO setup
-        busco_work_dir="$work_dir/Analyses/BUSCO/euk$contig_size/${busco_lineage%_odb10}/"
+        busco_work_dir="$work_dir/Analysis/BUSCO/euk$contig_size/${busco_lineage%_odb10}/"
 
         # BUSCO task
         busco \
@@ -440,7 +440,7 @@ busco_function() {
     # BUSCO loop for predicted proteins
     for busco_lineage in "${busco_lineages[@]}"; do
         # BUSCO setup
-        busco_work_dir="$work_dir/Analyses/BUSCO/euk${contig_size}_proteins/${busco_lineage%_odb10}/"
+        busco_work_dir="$work_dir/Analysis/BUSCO/euk${contig_size}_proteins/${busco_lineage%_odb10}/"
         busco_sample="$sample.euk${contig_size}_proteins"
 
         # BUSCO task
