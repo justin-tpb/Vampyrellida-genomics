@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 # Author: Justin Teixeira Pereira Bassiaridis
-# Date: 2024-05-06
+# Date: 2024-05-09
 # License: MIT
 
 # This pipeline assembles Nanopore long reads reads into a genome and polishes it with paired-end Illumina short reads.
@@ -185,7 +185,7 @@ flye_function() {
     --scaffold \
     --meta  # For metagenomes
 
-    # Copy scaffolds and assembly graphs/info to Output folder
+    # Copy scaffolds and assembly graphs/info/logs to Output folder
     cp "$scaffolds" "$assembly_out_dir/$sample.assembly.fasta"
     cp "$assembly_work_dir/assembly_graph.gfa" "$assembly_out_dir/$sample.assembly_graph.gfa"
     cp "$assembly_work_dir/assembly_graph.gv" "$assembly_out_dir/$sample.assembly_graph.gv"
@@ -335,7 +335,7 @@ whokaryote_function() {
     --threads "$threads" \
     --f  # Create filtered FASTA files
 
-    # Copy eukaryotic and prokaryotic contigs to Output folder
+    # Copy eukaryotic, prokaryotic and unclassified contigs to Output folder
     cp "$eukaryotic_scaffolds" "$assembly_out_dir/$eukaryotic_sample.fasta"
     cp "$decont_work_dir/prokaryotes.fasta" "$assembly_out_dir/$sample.prok$contig_size.fasta"
     cp "$decont_work_dir/unclassified.fasta" "$assembly_out_dir/$sample.unclassified$contig_size.fasta"
@@ -440,7 +440,8 @@ braker_function() {
     # Copy predictions to Output folder and remove copy of protein reference file
     cp "$predicted_proteins" "$predict_out_dir/$eukaryotic_sample.braker.pep"
     cp "$predict_work_dir/braker.codingseq" "$predict_out_dir/$eukaryotic_sample.braker.cds"
-    cp "$predict_work_dir/braker.gff3" "$predict_out_dir/$eukaryotic_sample.braker.gff"
+    cp "$predict_work_dir/braker.gff3" "$predict_out_dir/$eukaryotic_sample.braker.gff3"
+    cp "$predict_work_dir/braker.gtf" "$predict_out_dir/$eukaryotic_sample.braker.gtf"
     rm "$prot_seq"
 }
 
@@ -485,7 +486,7 @@ quast_function() {
         --threads "$threads" \
         --split-scaffolds
 
-        # Copy QUAST result file to Output folder
+        # Copy QUAST report to Output folder
         cp "$quast_work_dir/report.html" "$analysis_out_dir/$eukaryotic_sample.quast.html"
 
     conda deactivate

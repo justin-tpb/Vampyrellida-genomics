@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 # Author: Justin Teixeira Pereira Bassiaridis
-# Date: 2024-05-06
+# Date: 2024-05-09
 # License: MIT
 
 # This pipeline assembles paired-end Illumina short reads into a genome.
@@ -108,9 +108,9 @@ phyloflash_function() {
     -sc  # For single-cell data
     cd "$work_dir"
 
-    # Copy phyloFlash result file to Output folder
+    # Copy phyloFlash overview file and extracted SSU sequences to Output folder
     cp "$pf_work_dir/$sample.phyloFlash.html" "$analysis_out_dir/$sample.reads.phyloflash.html"
-    cp "$pf_work_dir/$sample.all.final.fasta" "$assembly_out_dir/$sample.reads.phyloflash_18S.fasta"
+    cp "$pf_work_dir/$sample.all.final.fasta" "$assembly_out_dir/$sample.reads.phyloflash_SSU.fasta"
 
     conda deactivate
 }
@@ -175,7 +175,8 @@ fastqc_function() {
     mv "$fastqc_work_dir"/*.zip "$fastqc_work_dir/Archives/"
 
     # Copy FastQC result files to Output folder
-    cp "$fastqc_work_dir"/*.html "$analysis_out_dir"
+    cp "$fastqc_work_dir"/$(basename "$fastp_out1" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads1.fastqc.html"
+    cp "$fastqc_work_dir"/$(basename "$fastp_out2" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads2.fastqc.html"
 
     conda deactivate
 }
@@ -201,7 +202,7 @@ spades_function() {
     --threads "$threads" \
     --meta  # For metagenomes
 
-    # Copy scaffolds and assembly graph to Output folder
+    # Copy scaffolds, assembly graph and assembly paths to Output folder
     cp "$scaffolds" "$assembly_out_dir/$sample.assembly.fasta"
     cp "$assembly_work_dir/assembly_graph.fastg" "$assembly_out_dir/$sample.assembly_graph.fastg"
     cp "$assembly_work_dir/scaffolds.paths" "$assembly_out_dir/$sample.assembly.paths"
@@ -232,7 +233,7 @@ whokaryote_function() {
     --threads "$threads" \
     --f  # Create filtered FASTA files
 
-    # Copy eukaryotic and prokaryotic contigs to Output folder
+    # Copy eukaryotic, prokaryotic and unclassified contigs to Output folder
     cp "$eukaryotic_scaffolds" "$assembly_out_dir/$eukaryotic_sample.fasta"
     cp "$decont_work_dir/prokaryotes.fasta" "$assembly_out_dir/$sample.prok$contig_size.fasta"
     cp "$decont_work_dir/unclassified.fasta" "$assembly_out_dir/$sample.unclassified$contig_size.fasta"
@@ -336,7 +337,8 @@ braker_function() {
     # Copy predictions to Output folder and remove copy of protein reference file
     cp "$predicted_proteins" "$predict_out_dir/$eukaryotic_sample.braker.pep"
     cp "$predict_work_dir/braker.codingseq" "$predict_out_dir/$eukaryotic_sample.braker.cds"
-    cp "$predict_work_dir/braker.gff3" "$predict_out_dir/$eukaryotic_sample.braker.gff"
+    cp "$predict_work_dir/braker.gff3" "$predict_out_dir/$eukaryotic_sample.braker.gff3"
+    cp "$predict_work_dir/braker.gtf" "$predict_out_dir/$eukaryotic_sample.braker.gtf"
     rm "$prot_seq"
 }
 
@@ -381,7 +383,7 @@ quast_function() {
         --threads "$threads" \
         --split-scaffolds
 
-        # Copy QUAST result file to Output folder
+        # Copy QUAST report to Output folder
         cp "$quast_work_dir/report.html" "$analysis_out_dir/$eukaryotic_sample.quast.html"
 
     conda deactivate
