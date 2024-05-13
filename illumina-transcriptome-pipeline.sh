@@ -107,7 +107,7 @@ phyloflash_function() {
 
     # Copy phyloFlash overview file and extracted SSU sequences to Output folder
     cp "$pf_work_dir/$sample.phyloFlash.html" "$analysis_out_dir/$sample.reads.phyloflash.html"
-    cp "$pf_work_dir/$sample.all.final.fasta" "$analysis_out_dir/$sample.reads.phyloflash_18S.fasta"
+    cp "$pf_work_dir/$sample.all.final.fasta" "$analysis_out_dir/$sample.reads.phyloflash_SSU.fasta"
 
     conda deactivate
 }
@@ -375,7 +375,7 @@ busco_function() {
 
         # Copy BUSCO result file to Output folder
         cp "$busco_work_dir/$sample/short_summary.specific.$busco_lineage.$sample.txt" \
-        "$analysis_out_dir/$sample.busco_${busco_lineage%_odb10}.html"
+        "$analysis_out_dir/$sample.busco_${busco_lineage%_odb10}.txt"
     done
     conda deactivate
 }
