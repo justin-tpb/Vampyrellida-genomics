@@ -175,8 +175,8 @@ fastqc_function() {
     mv "$fastqc_work_dir"/*.zip "$fastqc_work_dir/Archives/"
 
     # Copy FastQC result files to Output folder
-    cp "$fastqc_work_dir"/$(basename "$fastp_out1" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads1.fastqc.html"
-    cp "$fastqc_work_dir"/$(basename "$fastp_out2" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads2.fastqc.html"
+    cp "$fastqc_work_dir"/$(basename "$fastp_reads1" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads1.fastqc.html"
+    cp "$fastqc_work_dir"/$(basename "$fastp_reads2" .fastq.gz)_fastqc.html "$analysis_out_dir/$sample.reads2.fastqc.html"
 
     conda deactivate
 }
